@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="20dp"
+    tools:context="org.sdrc.sdrcims.activity.HomeActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:id="@+id/dm_btn"
+        android:padding="10dp"
+        android:background="@drawable/rounded_shape"
+        android:textColor="@color/white"
+        android:text="@string/device_management"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/lm_btn"
+        android:padding="10dp"
+        android:background="@drawable/rounded_shape"
+        android:textColor="@color/white"
+        android:text="@string/leave_management"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/im_btn"
+        android:padding="10dp"
+        android:background="@drawable/rounded_shape"
+        android:textColor="@color/white"
+        android:text="@string/inhouse_management"/>
+
+
+</LinearLayout>

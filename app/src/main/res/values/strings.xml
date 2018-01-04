@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">SDRCIMS</string>
+    <string name="device_management">Device Management</string>
+    <string name="leave_management">Leave Management</string>
+    <string name="inhouse_management">Training Management</string>
+    <string name="course_name_hint">Enter Course Name</string>
+    <string name="course_code_hint">Enter Course Code</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="start_time">From</string>
+    <string name="end_time">To</string>
+    <string name="attach_course_structure">Attach Course Structure</string>
+    <string name="remarks">Enter Remarks</string>
+    <string name="reset">Reset</string>
+    <string name="submit">Submit</string>
+    <string name="trainer_name">Trainer Name</string>
+    <string name="email">Enter Email Id</string>
+    <string name="course_announcement">Course Announcement</string>
+    <string name="course_enrollment">Course Enrollment</string>
+    <string name="feedback">Leave Feedback</string>
+</resources>
