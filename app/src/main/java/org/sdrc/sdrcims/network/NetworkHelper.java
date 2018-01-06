@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 
 import org.sdrc.sdrcims.R;
 import org.sdrc.sdrcims.listener.EmployeeNameListListener;
+import org.sdrc.sdrcims.model.CourseAnnouncementModel;
 import org.sdrc.sdrcims.listener.TypeDetailsListner;
 import org.sdrc.sdrcims.model.DropDown;
 import org.sdrc.sdrcims.model.EmployeeModel;
@@ -36,7 +37,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkHelper {
     private Context context;
     EmployeeNameListListener listener;
-    TypeDetailsListner typeDetailsListner;
     Retrofit retrofit;
     public NetworkHelper(Context ctx, EmployeeNameListListener listener){
         this.context = ctx;
@@ -56,6 +56,7 @@ public class NetworkHelper {
     }
 
     public void getTrainerList(){
+
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setMessage("loading");
         dialog.show();
@@ -72,6 +73,8 @@ public class NetworkHelper {
                 if(response.body().getStatus()==200){
 
                     listener.setEmployeeList(response.body().getEmployeeModel());
+
+                    listener.setTypeDetailList(response.body().getTypeDetailsModel());
 
                 }
                 dialog.cancel();
@@ -117,7 +120,7 @@ public class NetworkHelper {
 
 
                }
-                   listener.setTypeList(typeDetailModelList);
+                   listener.setTypeDetailList(typeDetailModelList);
                }
                 dialog.cancel();
             }
@@ -128,6 +131,16 @@ public class NetworkHelper {
             }
         });
     }
+
+    public void sendCourseAnnouncement(){
+
+
+
+
+
+
+    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package org.sdrc.sdrcims.service;
 
+import org.sdrc.sdrcims.model.CourseAnnouncementModel;
 import org.sdrc.sdrcims.model.DropDown;
 import org.sdrc.sdrcims.model.EmployeeModel;
 import org.sdrc.sdrcims.model.ReturnModel;
@@ -20,4 +21,6 @@ public interface TrainerList {
     @GET("dropDownEmp")
     Call<DropDown> getTrainingList();
 
+
 }
+

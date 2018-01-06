@@ -142,7 +142,7 @@ public class AddDeviceActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void setTypeList(List<TypeDetailModel> typeDetailModels) {
+    public void setTypeDetailList(List<TypeDetailModel> typeDetailModels) {
 
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,typeDetailModels);
 

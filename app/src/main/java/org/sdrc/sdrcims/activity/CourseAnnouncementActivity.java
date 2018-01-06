@@ -26,7 +26,7 @@ import org.sdrc.sdrcims.R;
 import org.sdrc.sdrcims.listener.EmployeeNameListListener;
 import org.sdrc.sdrcims.model.CourseAnnouncementModel;
 import org.sdrc.sdrcims.model.EmployeeModel;
-import org.sdrc.sdrcims.model.TypeDetailsModel;
+import org.sdrc.sdrcims.model.TypeDetailModel;
 import org.sdrc.sdrcims.network.NetworkHelper;
 
 import java.io.File;
@@ -289,7 +289,7 @@ public class CourseAnnouncementActivity extends AppCompatActivity implements Vie
     }
 
     @Override
-    public void setTypeDetailList(List<TypeDetailsModel> typeDetailsModelList) {
+    public void setTypeDetailList(List<TypeDetailModel> typeDetailsModelList) {
 
         if(typeDetailsModelList!=null){
 
