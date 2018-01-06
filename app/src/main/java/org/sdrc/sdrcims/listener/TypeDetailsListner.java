@@ -6,14 +6,10 @@ import org.sdrc.sdrcims.model.TypeDetailModel;
 import java.util.List;
 
 /**
- * Created by Amit Kumar Sahoo(amit@sdrc.co.in) on 05-01-2018.
+ * Created by Harsh Pratyush (harsh@sdrc.co.in) on 06-01-2018.
  */
 
-public interface EmployeeNameListListener {
-
-    void setEmployeeList(List<EmployeeModel> list);
+public interface TypeDetailsListner {
 
     void setTypeList(List<TypeDetailModel> typeDetailModels);
-
-
 }

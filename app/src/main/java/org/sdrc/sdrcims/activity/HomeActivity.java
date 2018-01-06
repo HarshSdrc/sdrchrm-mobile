@@ -18,6 +18,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_home);
         mTrainingButton = (Button) findViewById(R.id.im_btn);
         mTrainingButton.setOnClickListener(this);
+        mDmButton=(Button) findViewById(R.id.dm_btn);
+        mDmButton.setOnClickListener(this);
     }
 
     @Override
@@ -26,6 +28,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = new Intent(HomeActivity.this,ManageTrainingActivity.class);
         startActivity(intent);
+    }
+    else if(view.getId()==R.id.dm_btn)
+    {
+        Intent deviceManagementIntenet = new Intent(HomeActivity.this,DeviceManagementActivity.class);
+        startActivity(deviceManagementIntenet);
     }
     }
 }

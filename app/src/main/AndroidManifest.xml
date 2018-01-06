@@ -20,7 +20,13 @@
         <activity
             android:name=".activity.CourseAnnouncementActivity"
             android:windowSoftInputMode="adjustPan" />
+
         <activity android:name=".activity.ManageTrainingActivity"></activity>
+
+        <activity android:name=".activity.DeviceManagementActivity"  android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".activity.AddDeviceActivity"  android:windowSoftInputMode="adjustPan"></activity>
+
+
     </application>
 
 </manifest>

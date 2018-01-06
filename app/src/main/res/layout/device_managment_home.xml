@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    tools:context="org.sdrc.sdrcims.activity.DeviceManagementActivity"
+    >
+
+    <Button
+        android:id="@+id/new_device_management"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_shape"
+        android:padding="10dp"
+        android:text="@string/add_new_device"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+       />
+
+    <Button
+        android:id="@+id/manage_device_old"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_shape"
+        android:padding="10dp"
+        android:text="@string/manage_device"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+    <Button
+        android:id="@+id/view_device_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_shape"
+        android:padding="10dp"
+        android:text="@string/view_device_history"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+</LinearLayout>
