@@ -26,6 +26,7 @@ import org.sdrc.sdrcims.R;
 import org.sdrc.sdrcims.listener.EmployeeNameListListener;
 import org.sdrc.sdrcims.model.CourseAnnouncementModel;
 import org.sdrc.sdrcims.model.EmployeeModel;
+import org.sdrc.sdrcims.model.TypeDetailsModel;
 import org.sdrc.sdrcims.network.NetworkHelper;
 
 import java.io.File;
@@ -38,8 +39,9 @@ import java.util.regex.Pattern;
 
 public class CourseAnnouncementActivity extends AppCompatActivity implements View.OnClickListener,EmployeeNameListListener{
 
-    private EditText startDate, endDate, startTime, endTime,courseCode,courseName,remark,email;
-    private Spinner trainerName;
+    private EditText startDate, endDate, startTime, endTime,courseCode,remark,email;
+
+    private Spinner trainerName,courseName;
     private  ImageView cousrseStructureImg;
     private int ATTACHMENT_CODE = 0;
     private File filetoSend = null;
@@ -54,12 +56,16 @@ public class CourseAnnouncementActivity extends AppCompatActivity implements Vie
         getSupportActionBar().setTitle(R.string.course_announcement);
 
         courseCode = (EditText) findViewById(R.id.course_code_edt);
-        courseName = (EditText) findViewById(R.id.course_name_edt);
+        courseName = (Spinner) findViewById(R.id.course_name_spinner);
         trainerName = (Spinner) findViewById(R.id.trainer_spinner);
         startDate = (EditText) findViewById(R.id.start_date_edt);
+        startDate.setFocusable(false);
         endDate = (EditText) findViewById(R.id.end_date_edt);
+        endDate.setFocusable(false);
         startTime = (EditText) findViewById(R.id.start_time_edt);
+        startTime.setFocusable(false);
         endTime = (EditText) findViewById(R.id.end_time_edt);
+        endTime.setFocusable(false);
         email = (EditText) findViewById(R.id.email_edt);
         attachmentTv = (TextView) findViewById(R.id.attachment_tv);
         cousrseStructureImg = (ImageView) findViewById(R.id.attachment_img);
@@ -78,6 +84,7 @@ public class CourseAnnouncementActivity extends AppCompatActivity implements Vie
 
         NetworkHelper helper = new NetworkHelper(CourseAnnouncementActivity.this,CourseAnnouncementActivity.this);
         helper.getTrainerList();
+
 
     }
 
@@ -116,7 +123,7 @@ public class CourseAnnouncementActivity extends AppCompatActivity implements Vie
 
             Toast.makeText(getApplicationContext(),getResources().getString(R.string.course_code_errmsg),Toast.LENGTH_LONG).show();
 
-        }else if(courseName.getText().toString().length()==0){
+        }else if(courseName.getSelectedItem().toString().equalsIgnoreCase("Select Trainer Name")){
 
             Toast.makeText(getApplicationContext(),getResources().getString(R.string.course_name_errmsg),Toast.LENGTH_LONG).show();
 
@@ -136,7 +143,7 @@ public class CourseAnnouncementActivity extends AppCompatActivity implements Vie
 
              Toast.makeText(getApplicationContext(),getResources().getString(R.string.end_time_errmsg),Toast.LENGTH_LONG).show();
 
-        }else if(trainerName.getCount()>=1){
+        }else if(trainerName.getSelectedItem().toString().equalsIgnoreCase("Select Trainer Name")){
 
             Toast.makeText(getApplicationContext(),getResources().getString(R.string.trainer_name_errmsg),Toast.LENGTH_LONG).show();
 
@@ -144,7 +151,7 @@ public class CourseAnnouncementActivity extends AppCompatActivity implements Vie
 
             Toast.makeText(getApplicationContext(),getResources().getString(R.string.attach_file_errmsg),Toast.LENGTH_LONG).show();
 
-        }else if(validateEmail()){
+        }else if(email.getText().toString().length()==0){
 
             Toast.makeText(getApplicationContext(),getResources().getString(R.string.email_empty_msg),Toast.LENGTH_LONG).show();
 
@@ -154,30 +161,26 @@ public class CourseAnnouncementActivity extends AppCompatActivity implements Vie
 
             courseAnnouncementModel = new CourseAnnouncementModel();
             courseAnnouncementModel.setCourseCode(courseCode.getText().toString());
-            courseAnnouncementModel.setCourseName(courseName.getText().toString());
+            courseAnnouncementModel.setCourseName(courseName.getSelectedItem().toString());
             courseAnnouncementModel.setStartDate(startDate.getText().toString());
             courseAnnouncementModel.setEndDate(endDate.getText().toString());
             courseAnnouncementModel.setFrom(startTime.getText().toString());
             courseAnnouncementModel.setTo(endTime.getText().toString());
             courseAnnouncementModel.setTrainerName(trainerName.getSelectedItem().toString());
+            courseAnnouncementModel.setEmail(email.getText().toString());
             courseAnnouncementModel.setRemarks(remark.getText().toString());
         }
 
+       // NetworkHelper helper = new NetworkHelper(CourseAnnouncementActivity.this,CourseAnnouncementActivity.this);
+
+
     }
 
-    private boolean validateEmail() {
-
-        // int len= email.getText().length();
-          //  Patterns.EMAIL_ADDRESS.matcher(email.getText().toString());
-
-       // return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
-        return true;
-    }
 
     private void resetAllField() {
 
         courseCode.setText("");
-        courseName.setText("");
+        courseName.setSelection(0);
         startDate.setText("");
         endDate.setText("");
         startTime.setText("");
@@ -261,25 +264,41 @@ public class CourseAnnouncementActivity extends AppCompatActivity implements Vie
     @Override
     public void setEmployeeList(List<EmployeeModel> list) {
 
-        List<String>  empNameList = new ArrayList<String>();
+       // List<String>  empNameList = new ArrayList<String>();
 
-        empNameList.add(0,"Select Trainer Name");
 
-        ListIterator<EmployeeModel> iterator = list.listIterator();
+
+        /*ListIterator<EmployeeModel> iterator = list.listIterator();
 
         while(iterator.hasNext()){
 
             empNameList.add(iterator.next().getEmployeeName());
 
-        }
+        }*/
         if(list!=null){
 
             //trainerName
-            ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,empNameList);
+            ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,list);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             trainerName.setAdapter(adapter);
+
+        }
+
+    }
+
+    @Override
+    public void setTypeDetailList(List<TypeDetailsModel> typeDetailsModelList) {
+
+        if(typeDetailsModelList!=null){
+
+            //course name
+            ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,typeDetailsModelList);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            courseName.setAdapter(adapter);
 
         }
 
