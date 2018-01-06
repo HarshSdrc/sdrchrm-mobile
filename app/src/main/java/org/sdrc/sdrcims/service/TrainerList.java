@@ -1,6 +1,9 @@
 package org.sdrc.sdrcims.service;
 
-import org.sdrc.sdrcims.model.TrainerData;
+import org.sdrc.sdrcims.model.DropDown;
+import org.sdrc.sdrcims.model.EmployeeModel;
+import org.sdrc.sdrcims.model.ReturnModel;
+
 
 import java.util.List;
 
@@ -14,6 +17,7 @@ import retrofit2.http.POST;
  */
 
 public interface TrainerList {
-    @GET("GetCountries")
-    Call<List<TrainerData>> getTrainingList();
+    @GET("dropDownEmp")
+    Call<DropDown> getTrainingList();
+
 }

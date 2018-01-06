@@ -17,5 +17,18 @@
     <string name="email">Enter Email Id</string>
     <string name="course_announcement">Course Announcement</string>
     <string name="course_enrollment">Course Enrollment</string>
-    <string name="feedback">Leave Feedback</string>
+    <string name="feedback">Give Feedback</string>
+    <string name="baseurl">http://192.168.1.177:8080/</string>
+    <string name="course_code_errmsg">Course Code cannot be empty!</string>
+    <string name="course_name_errmsg">Course_Name cannot be empty!</string>
+    <string name="start_date_errmsg">Start Date cannot be empty!</string>
+    <string name="end_date_errmsg">End Date cannot be empty!</string>
+    <string name="start_time_errmsg">Start Time cannot be empty!</string>
+    <string name="end_time_errmsg">End Time cannot be empty!</string>
+    <string name="trainer_name_errmsg">Please select Trainer Name!</string>
+    <string name="attach_file_errmsg">Please attach file!</string>
+    <string name="email_empty_msg">email cannot be empty</string>
+    <string name="email_regexmsg">please enter valid email</string>
+
+
 </resources>
