@@ -18,7 +18,7 @@
     <string name="course_announcement">Course Announcement</string>
     <string name="course_enrollment">Course Enrollment</string>
     <string name="feedback">Give Feedback</string>
-    <string name="baseurl">http://192.168.1.177:8080/</string>
+    <string name="baseurl">http://192.168.1.109:8080/</string>
     <string name="course_code_errmsg">Course Code cannot be empty!</string>
     <string name="course_name_errmsg">Course_Name cannot be empty!</string>
     <string name="start_date_errmsg">Start Date cannot be empty!</string>
@@ -29,6 +29,17 @@
     <string name="attach_file_errmsg">Please attach file!</string>
     <string name="email_empty_msg">email cannot be empty</string>
     <string name="email_regexmsg">please enter valid email</string>
-
+    <string name="add_new_device">New Device</string>
+    <string name="manage_device">Manage Device</string>
+    <string name="view_device_history">View Device History</string>
+    <string name="select_device_type">Select Device Type</string>
+    <string name="device_name">Device Name</string>
+    <string name="model_number">Device Model Number</string>
+    <string name="firmware">Firmware</string>
+    <string name="firmware_version">Firmware Version</string>
+    <string name="mac_adress">Mac Adress</string>
+    <string name="select_date_puchase">Select Purchase Date</string>
+    <string name="serial_number">Device Serial Number</string>
+    <string name="add_device">Add Device</string>
 
 </resources>

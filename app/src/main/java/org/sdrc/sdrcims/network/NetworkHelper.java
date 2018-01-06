@@ -9,10 +9,14 @@ import com.google.gson.GsonBuilder;
 
 import org.sdrc.sdrcims.R;
 import org.sdrc.sdrcims.listener.EmployeeNameListListener;
+import org.sdrc.sdrcims.listener.TypeDetailsListner;
 import org.sdrc.sdrcims.model.DropDown;
 import org.sdrc.sdrcims.model.EmployeeModel;
 import org.sdrc.sdrcims.model.ReturnModel;
 
+import org.sdrc.sdrcims.model.TypeDetailModel;
+import org.sdrc.sdrcims.model.UserDataModel;
+import org.sdrc.sdrcims.service.DeviceManagementService;
 import org.sdrc.sdrcims.service.TrainerList;
 
 import java.net.SocketTimeoutException;
@@ -32,6 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkHelper {
     private Context context;
     EmployeeNameListListener listener;
+    TypeDetailsListner typeDetailsListner;
     Retrofit retrofit;
     public NetworkHelper(Context ctx, EmployeeNameListListener listener){
         this.context = ctx;
@@ -75,6 +80,50 @@ public class NetworkHelper {
             @Override
             public void onFailure(Call<DropDown> call, Throwable t) {
                 Log.v("error::","failure");
+                dialog.cancel();
+            }
+        });
+    }
+
+    public void getDeviceType(){
+        final ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setMessage("Please Wait");
+        dialog.show();
+        UserDataModel userDataModel = new UserDataModel();
+
+        userDataModel.setUserName("harsh@sdrc.co.in");
+        userDataModel.setPassword("harsh");
+        DeviceManagementService deviceManagementService =retrofit.create(DeviceManagementService.class);
+        Call<ReturnModel> call = deviceManagementService.getDeviceType(userDataModel);
+        call.enqueue(new Callback<ReturnModel>() {
+            @Override
+            public void onResponse( Call<ReturnModel> call, Response<ReturnModel> response) {
+
+
+               if(response.body().getStatusCode()==200)
+               {
+                   Gson gson = new Gson();
+                   String gsonString = gson.toJson(response.body().getObject());
+                   TypeDetailModel typeDetailModel = null;
+                   List<TypeDetailModel> typeDetailModelList = new ArrayList<TypeDetailModel>();
+
+                   if (response.body().getObject() instanceof ArrayList) {
+                   List<Object> objects = new ArrayList<>();
+                   for (Object objectA : (ArrayList) response.body().getObject()) {
+                       gsonString = gson.toJson(objectA);
+                       typeDetailModel = gson.fromJson(gsonString, TypeDetailModel.class);
+                       typeDetailModelList.add(typeDetailModel);
+                   }
+
+
+               }
+                   listener.setTypeList(typeDetailModelList);
+               }
+                dialog.cancel();
+            }
+
+            @Override
+            public void onFailure(Call<ReturnModel> call, Throwable t) {
                 dialog.cancel();
             }
         });

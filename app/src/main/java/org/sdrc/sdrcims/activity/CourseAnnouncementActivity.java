@@ -26,6 +26,7 @@ import org.sdrc.sdrcims.R;
 import org.sdrc.sdrcims.listener.EmployeeNameListListener;
 import org.sdrc.sdrcims.model.CourseAnnouncementModel;
 import org.sdrc.sdrcims.model.EmployeeModel;
+import org.sdrc.sdrcims.model.TypeDetailModel;
 import org.sdrc.sdrcims.network.NetworkHelper;
 
 import java.io.File;
@@ -282,6 +283,11 @@ public class CourseAnnouncementActivity extends AppCompatActivity implements Vie
             trainerName.setAdapter(adapter);
 
         }
+
+    }
+
+    @Override
+    public void setTypeList(List<TypeDetailModel> typeDetailModels) {
 
     }
 }
