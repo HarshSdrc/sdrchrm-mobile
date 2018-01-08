@@ -56,7 +56,7 @@ public class CourseAnnouncementActivity extends AppCompatActivity implements Vie
         getSupportActionBar().setTitle(R.string.course_announcement);
 
         courseCode = (EditText) findViewById(R.id.course_code_edt);
-        courseName = (Spinner) findViewById(R.id.course_name_spinner);
+      //  courseName = (Spinner) findViewById(R.id.course_name_spinner);
         trainerName = (Spinner) findViewById(R.id.trainer_spinner);
         startDate = (EditText) findViewById(R.id.start_date_edt);
         startDate.setFocusable(false);

@@ -1,7 +1,10 @@
 package org.sdrc.sdrcims.network;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -11,6 +14,7 @@ import org.sdrc.sdrcims.R;
 import org.sdrc.sdrcims.listener.EmployeeNameListListener;
 import org.sdrc.sdrcims.model.CourseAnnouncementModel;
 import org.sdrc.sdrcims.listener.TypeDetailsListner;
+import org.sdrc.sdrcims.model.DeviceModel;
 import org.sdrc.sdrcims.model.DropDown;
 import org.sdrc.sdrcims.model.EmployeeModel;
 import org.sdrc.sdrcims.model.ReturnModel;
@@ -37,12 +41,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkHelper {
     private Context context;
     EmployeeNameListListener listener;
+    TypeDetailsListner typeDetailListner;
     Retrofit retrofit;
     public NetworkHelper(Context ctx, EmployeeNameListListener listener){
         this.context = ctx;
         this.listener = listener;
         initRetrofitClient();
     }
+
+    public NetworkHelper(Context ctx, TypeDetailsListner typeDetailListner){
+        this.context = ctx;
+        this.typeDetailListner = typeDetailListner;
+        initRetrofitClient();
+    }
+
 
 
     private void initRetrofitClient() {
@@ -120,7 +132,7 @@ public class NetworkHelper {
 
 
                }
-                   listener.setTypeDetailList(typeDetailModelList);
+                   typeDetailListner.setTypeList(typeDetailModelList);
                }
                 dialog.cancel();
             }
@@ -142,5 +154,58 @@ public class NetworkHelper {
     }
 
 
+    public void sendNewDevice(DeviceModel deviceModel) {
 
+        final ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setMessage("Please Wait");
+        dialog.show();
+        UserDataModel userDataModel = new UserDataModel();
+
+        userDataModel.setUserName("harsh@sdrc.co.in");
+        userDataModel.setPassword("harsh");
+        userDataModel.setSubmissionObject(deviceModel);
+        DeviceManagementService deviceManagementService =retrofit.create(DeviceManagementService.class);
+        Call<ReturnModel> call = deviceManagementService.saveDevice(userDataModel);
+        call.enqueue(new Callback<ReturnModel>() {
+            @Override
+            public void onResponse( Call<ReturnModel> call, Response<ReturnModel> response) {
+
+
+                dialog.cancel();
+                ReturnModel returnModel = response.body();
+
+                // 1. Instantiate an AlertDialog.Builder with its constructor
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                // 2. Chain together various setter methods to set the dialog characteristics
+                builder.setMessage(returnModel.getMessage())
+                        .setTitle(returnModel.getDescription());
+
+                // 3. Get the AlertDialog from create()
+
+                AlertDialog dialog = builder.create();
+
+
+                builder.setCancelable(true);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+
+            @Override
+            public void onFailure(Call<ReturnModel> call, Throwable t) {
+                dialog.cancel();
+            }
+        });
+    }
 }

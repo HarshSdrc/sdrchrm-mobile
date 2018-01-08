@@ -25,6 +25,7 @@ public class DeviceManagementActivity extends AppCompatActivity implements View.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+
         addDevice = (Button) findViewById(R.id.new_device_management);
         addDevice.setOnClickListener(this);
 

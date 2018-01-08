@@ -41,5 +41,6 @@
     <string name="select_date_puchase">Select Purchase Date</string>
     <string name="serial_number">Device Serial Number</string>
     <string name="add_device">Add Device</string>
+    <string name="add_device_description">Description</string>
 
 </resources>

@@ -1,7 +1,9 @@
 package org.sdrc.sdrcims.listener;
 
 import org.sdrc.sdrcims.model.EmployeeModel;
+import org.sdrc.sdrcims.model.ReturnModel;
 import org.sdrc.sdrcims.model.TypeDetailModel;
+import org.sdrc.sdrcims.model.UserDataModel;
 
 import java.util.List;
 
@@ -12,4 +14,5 @@ import java.util.List;
 public interface TypeDetailsListner {
 
     void setTypeList(List<TypeDetailModel> typeDetailModels);
+
 }

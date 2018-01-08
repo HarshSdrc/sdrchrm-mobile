@@ -48,7 +48,7 @@ public class DeviceModel {
 
 	private String macAdress;
 
-	private Date purchaseDate;
+	private String purchaseDate;
 
 	public String getModel() {
 		return model;
@@ -90,11 +90,11 @@ public class DeviceModel {
 		this.macAdress = macAdress;
 	}
 
-	public Date getPurchaseDate() {
+	public String getPurchaseDate() {
 		return purchaseDate;
 	}
 
-	public void setPurchaseDate(Date purchaseDate) {
+	public void setPurchaseDate(String purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 

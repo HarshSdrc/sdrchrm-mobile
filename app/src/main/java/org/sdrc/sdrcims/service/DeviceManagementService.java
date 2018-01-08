@@ -19,4 +19,7 @@ public interface DeviceManagementService {
 
     @POST("getDeviceType")
     Call<ReturnModel> getDeviceType(@Body UserDataModel userDataModel);
+
+    @POST("addDevice")
+    Call<ReturnModel> saveDevice(@Body UserDataModel userDataModel);
 }

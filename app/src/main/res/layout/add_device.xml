@@ -116,6 +116,16 @@
                 android:gravity="top"
                 android:hint="@string/mac_adress"
                 android:padding="10dp" />
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:drawable/edit_text"
+                android:gravity="top"
+                android:hint="@string/add_device_description"
+                android:padding="10dp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,42 +152,34 @@
                 android:src="@mipmap/datepicker" />
             </RelativeLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/reset_device"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/reset"
+                    />
+
+                <Button
+                    android:id="@+id/add_devie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/add_device"
+                    />
+
+            </LinearLayout>
         </LinearLayout>
 
 
 
     </ScrollView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/relativeLayout">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
-
-            <Button
-                android:id="@+id/reset_device"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/reset"
-                android:clickable="true"
-                />
-
-            <Button
-                android:id="@+id/add_devie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/add_device"
-                android:clickable="true"
-                />
-
-        </LinearLayout>
-    </RelativeLayout>
 
 
 </RelativeLayout>
