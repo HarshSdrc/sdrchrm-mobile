@@ -15,4 +15,7 @@ public interface TypeDetailsListner {
 
     void setTypeList(List<TypeDetailModel> typeDetailModels);
 
+    void saveDevice(ReturnModel returnModel);
+
+    void getAllDevice(ReturnModel returnModel);
 }

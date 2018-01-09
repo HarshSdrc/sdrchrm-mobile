@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.sdrc.sdrcims">
+
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
@@ -23,8 +24,17 @@
 
         <activity android:name=".activity.ManageTrainingActivity"></activity>
 
-        <activity android:name=".activity.DeviceManagementActivity"  android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".activity.AddDeviceActivity"  android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activity.DeviceManagementActivity"
+            android:windowSoftInputMode="adjustPan" android:parentActivityName=".activity.HomeActivity"></activity>
+        <activity
+            android:name=".activity.AddDeviceActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" android:parentActivityName=".activity.DeviceManagementActivity"></activity>
+        <activity
+            android:name=".activity.ViewDeviceActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" android:parentActivityName=".activity.DeviceManagementActivity"></activity>
 
 
     </application>

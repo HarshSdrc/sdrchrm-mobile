@@ -2,7 +2,9 @@ package org.sdrc.sdrcims.activity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -18,18 +20,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.sdrc.sdrcims.R;
-import org.sdrc.sdrcims.listener.EmployeeNameListListener;
+
 import org.sdrc.sdrcims.listener.TypeDetailsListner;
-import org.sdrc.sdrcims.model.CourseAnnouncementModel;
+
 import org.sdrc.sdrcims.model.DeviceModel;
-import org.sdrc.sdrcims.model.EmployeeModel;
+
 import org.sdrc.sdrcims.model.ReturnModel;
 import org.sdrc.sdrcims.model.TypeDetailModel;
 import org.sdrc.sdrcims.network.NetworkHelper;
-import org.w3c.dom.Text;
+import org.sdrc.sdrcims.util.IntentIntegrator;
+import org.sdrc.sdrcims.util.IntentResult;
+
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -38,11 +42,11 @@ import java.util.Random;
  * Created by SDRC_DEV on 06-01-2018.
  */
 
-public class AddDeviceActivity extends AppCompatActivity implements View.OnClickListener,TypeDetailsListner {
+public class AddDeviceActivity extends DeviceManagementActivity implements View.OnClickListener,TypeDetailsListner {
 
     private Button submitButton,resetButton;
 
-    private TextView select_date;
+    private TextView select_date,select_barcode;
 
     private EditText deviceName, modelNo, serialNo, firmware , firmwareVersion , macAdress,deviceDescription;
 
@@ -68,6 +72,10 @@ public class AddDeviceActivity extends AppCompatActivity implements View.OnClick
 
         select_date.setOnClickListener(this);
 
+        select_barcode=(TextView)findViewById(R.id.select_barcode);
+
+        select_barcode.setOnClickListener(this);
+
         submitButton = (Button)findViewById(R.id.add_devie);
         resetButton = (Button)findViewById(R.id.reset_device);
 
@@ -92,6 +100,10 @@ public class AddDeviceActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.add_devie :
                 submitEvent();
+                break;
+
+            case R.id.select_barcode:
+                intiateScan();
                 break;
 
         }
@@ -143,11 +155,16 @@ public class AddDeviceActivity extends AppCompatActivity implements View.OnClick
             Toast.makeText(getApplicationContext(),getResources().getString(R.string.select_date_puchase),Toast.LENGTH_LONG).show();
         }
 
+        else if(select_barcode.getText().toString().length()==0)
+        {
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.select_barcode_new),Toast.LENGTH_LONG).show();
+        }
+
         else{
 
            deviceModel = new DeviceModel();
            Random random = new Random();
-           deviceModel.setBarCode(String.valueOf(random.nextLong()));
+           deviceModel.setBarCode(select_barcode.getText().toString());
            deviceModel.setDescription(deviceDescription.getText().toString());
            deviceModel.setDeviceName(deviceName.getText().toString());
            deviceModel.setModel(modelNo.getText().toString());
@@ -173,6 +190,26 @@ public class AddDeviceActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void resetAllField() {
+        startActivity(new Intent(AddDeviceActivity.this, AddDeviceActivity.class));
+
+    }
+
+
+    private void intiateScan() {
+
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.initiateScan();
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            select_barcode.setText(scanResult.getContents());
+//            Log.v("scan Result",scanResult.getContents());
+        }
 
     }
 
@@ -225,4 +262,99 @@ public class AddDeviceActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    @Override
+    public void saveDevice(final ReturnModel returnModel) {
+
+        // 1. Instantiate an AlertDialog.Builder with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddDeviceActivity.this);
+
+        // 2. Chain together various setter methods to set the dialog characteristics
+        builder.setMessage(returnModel.getDescription())
+                .setTitle(returnModel.getMessage());
+
+        // 3. Get the AlertDialog from create()
+        String buttonName="";
+
+        switch (returnModel.getStatusCode())
+        {
+            case 200:
+                buttonName="Ok";
+                break;
+            case 415:
+                buttonName = "Login";
+                break;
+            case 400:
+                buttonName="Yes";
+        }
+
+
+        builder.setCancelable(false);
+        builder.setPositiveButton(buttonName, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+                if(returnModel.getStatusCode()==200)
+                {
+                    dialog.dismiss();
+                    finish();
+                    Intent deviceManagementIntenet = new Intent(AddDeviceActivity.this,DeviceManagementActivity.class);
+
+                    startActivity(deviceManagementIntenet);
+                }
+                else if(returnModel.getStatusCode()==415)
+                {
+                    dialog.dismiss();
+                    finish();
+                    Intent deviceManagementIntenet = new Intent(AddDeviceActivity.this,HomeActivity.class);
+                    startActivity(deviceManagementIntenet);
+                }
+                else {
+                    resetAllField();
+                    dialog.dismiss();
+                }
+            }
+        });
+        if(returnModel.getStatusCode()==400) {
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                    finish();
+                    Intent deviceManagementIntenet = new Intent(AddDeviceActivity.this, DeviceManagementActivity.class);
+                    startActivity(deviceManagementIntenet);
+
+                }
+            });
+        }
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+    }
+
+    @Override
+    public void getAllDevice(ReturnModel returnModel) {
+
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent homeIntenet = new Intent(AddDeviceActivity.this,DeviceManagementActivity.class);
+        startActivity(homeIntenet);
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        Intent homeIntenet = new Intent(AddDeviceActivity.this,DeviceManagementActivity.class);
+        startActivity(homeIntenet);
+        return super.onSupportNavigateUp();
+    }
 }

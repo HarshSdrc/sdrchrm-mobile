@@ -33,6 +33,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     {
         Intent deviceManagementIntenet = new Intent(HomeActivity.this,DeviceManagementActivity.class);
         startActivity(deviceManagementIntenet);
+//        finish();
     }
     }
 }

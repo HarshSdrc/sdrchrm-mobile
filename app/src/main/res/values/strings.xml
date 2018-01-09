@@ -42,5 +42,7 @@
     <string name="serial_number">Device Serial Number</string>
     <string name="add_device">Add Device</string>
     <string name="add_device_description">Description</string>
+    <string name="select_barcode_new">Scan for barcode</string>
+    <string name="view_device_history_name">Device History</string>
 
 </resources>

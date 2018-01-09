@@ -170,36 +170,9 @@ public class NetworkHelper {
             @Override
             public void onResponse( Call<ReturnModel> call, Response<ReturnModel> response) {
 
-
                 dialog.cancel();
-                ReturnModel returnModel = response.body();
+                typeDetailListner.saveDevice(response.body());
 
-                // 1. Instantiate an AlertDialog.Builder with its constructor
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                // 2. Chain together various setter methods to set the dialog characteristics
-                builder.setMessage(returnModel.getMessage())
-                        .setTitle(returnModel.getDescription());
-
-                // 3. Get the AlertDialog from create()
-
-                AlertDialog dialog = builder.create();
-
-
-                builder.setCancelable(true);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                        dialog.dismiss();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
             }
 
             @Override
