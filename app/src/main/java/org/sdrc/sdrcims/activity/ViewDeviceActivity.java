@@ -38,4 +38,9 @@ public class ViewDeviceActivity extends DeviceManagementActivity implements Type
     public void getAllDevice(ReturnModel returnModel) {
 
     }
+
+    @Override
+    public void login(ReturnModel returnModel, String string) {
+
+    }
 }

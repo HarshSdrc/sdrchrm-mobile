@@ -1,10 +1,7 @@
 package org.sdrc.sdrcims.network;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -12,11 +9,9 @@ import com.google.gson.GsonBuilder;
 
 import org.sdrc.sdrcims.R;
 import org.sdrc.sdrcims.listener.EmployeeNameListListener;
-import org.sdrc.sdrcims.model.CourseAnnouncementModel;
 import org.sdrc.sdrcims.listener.TypeDetailsListner;
 import org.sdrc.sdrcims.model.DeviceModel;
 import org.sdrc.sdrcims.model.DropDown;
-import org.sdrc.sdrcims.model.EmployeeModel;
 import org.sdrc.sdrcims.model.ReturnModel;
 
 import org.sdrc.sdrcims.model.TypeDetailModel;
@@ -24,10 +19,10 @@ import org.sdrc.sdrcims.model.UserDataModel;
 import org.sdrc.sdrcims.service.DeviceManagementService;
 import org.sdrc.sdrcims.service.TrainerList;
 
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,9 +35,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkHelper {
     private Context context;
-    EmployeeNameListListener listener;
-    TypeDetailsListner typeDetailListner;
-    Retrofit retrofit;
+    private EmployeeNameListListener listener;
+    private TypeDetailsListner typeDetailListner;
+    private Retrofit retrofit;
+    private OkHttpClient httpClient=new OkHttpClient();
+
+
+
+
+
     public NetworkHelper(Context ctx, EmployeeNameListListener listener){
         this.context = ctx;
         this.listener = listener;
@@ -61,10 +62,15 @@ public class NetworkHelper {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
-         retrofit = new Retrofit.Builder()
+         retrofit = new Retrofit
+                 .Builder()
                 .baseUrl(context.getResources().getString(R.string.baseurl))//reading this from string folder
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
+
+                 .build()
+                    ;
+
+//        httpClient.
     }
 
     public void getTrainerList(){
@@ -100,22 +106,31 @@ public class NetworkHelper {
         });
     }
 
-    public void getDeviceType(){
+    public void getDeviceType(UserDataModel userDataModel,String cookie){
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setMessage("Please Wait");
         dialog.show();
-        UserDataModel userDataModel = new UserDataModel();
 
-        userDataModel.setUserName("harsh@sdrc.co.in");
-        userDataModel.setPassword("harsh");
+//        if (!TextUtils.isEmpty(authToken)) {
+//            AuthenticationInterceptor interceptor =
+//                    new AuthenticationInterceptor(authToken);
+//
+//            if (!httpClient.interceptors().contains(interceptor)) {
+//                httpClient.addInterceptor(interceptor);
+
+
+
+
         DeviceManagementService deviceManagementService =retrofit.create(DeviceManagementService.class);
-        Call<ReturnModel> call = deviceManagementService.getDeviceType(userDataModel);
+        Call<ReturnModel> call = deviceManagementService.getDeviceType(cookie,userDataModel);
+
         call.enqueue(new Callback<ReturnModel>() {
             @Override
             public void onResponse( Call<ReturnModel> call, Response<ReturnModel> response) {
 
 
-               if(response.body().getStatusCode()==200)
+
+               if(response.body()!=null&&response.body().getStatusCode()==200)
                {
                    Gson gson = new Gson();
                    String gsonString = gson.toJson(response.body().getObject());
@@ -139,6 +154,7 @@ public class NetworkHelper {
 
             @Override
             public void onFailure(Call<ReturnModel> call, Throwable t) {
+                t.fillInStackTrace();
                 dialog.cancel();
             }
         });
@@ -149,23 +165,16 @@ public class NetworkHelper {
 
 
 
-
-
     }
 
 
-    public void sendNewDevice(DeviceModel deviceModel) {
+    public void sendNewDevice(UserDataModel userDataModel,String cookie) {
 
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setMessage("Please Wait");
         dialog.show();
-        UserDataModel userDataModel = new UserDataModel();
-
-        userDataModel.setUserName("harsh@sdrc.co.in");
-        userDataModel.setPassword("harsh");
-        userDataModel.setSubmissionObject(deviceModel);
         DeviceManagementService deviceManagementService =retrofit.create(DeviceManagementService.class);
-        Call<ReturnModel> call = deviceManagementService.saveDevice(userDataModel);
+        Call<ReturnModel> call = deviceManagementService.saveDevice(cookie,userDataModel);
         call.enqueue(new Callback<ReturnModel>() {
             @Override
             public void onResponse( Call<ReturnModel> call, Response<ReturnModel> response) {
@@ -181,4 +190,45 @@ public class NetworkHelper {
             }
         });
     }
+
+    public void login(UserDataModel userDataModel){
+
+        final ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setMessage("Please Wait");
+        dialog.show();
+        DeviceManagementService deviceManagementService =retrofit.create(DeviceManagementService.class);
+        Call<ReturnModel> call = deviceManagementService.login(userDataModel);
+        call.enqueue(new Callback<ReturnModel>() {
+            @Override
+            public void onResponse( Call<ReturnModel> call, Response<ReturnModel> response) {
+
+                {
+                    dialog.cancel();
+                    String cookies="";
+                    if(response.headers().values("Set-Cookie")!=null) {
+                      for(String cookie: response.headers().values("Set-Cookie"))
+                      {
+                          if(cookies.trim().equalsIgnoreCase(""))
+                          cookies+=(cookie.split(";")[0]);
+                          else
+                              cookies+= "; "+cookie.split(";")[0];
+                      }
+                    }
+
+                    typeDetailListner.login(response.body(),cookies);
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ReturnModel> call, Throwable t) {
+                dialog.cancel();
+            }
+        });
+
+    }
+
+
 }

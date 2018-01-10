@@ -18,4 +18,6 @@ public interface TypeDetailsListner {
     void saveDevice(ReturnModel returnModel);
 
     void getAllDevice(ReturnModel returnModel);
+
+    void login(ReturnModel returnModel,String string);
 }

@@ -44,5 +44,10 @@
     <string name="add_device_description">Description</string>
     <string name="select_barcode_new">Scan for barcode</string>
     <string name="view_device_history_name">Device History</string>
+    <string name="token" />
+    <string name="login">Login</string>
+    <string name="password">Enter Password</string>
+    <string name="home">Home</string>
+    <string name="cookie">Cookie</string>
 
 </resources>

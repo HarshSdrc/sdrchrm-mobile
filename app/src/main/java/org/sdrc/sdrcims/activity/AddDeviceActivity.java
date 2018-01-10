@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -27,9 +28,11 @@ import org.sdrc.sdrcims.model.DeviceModel;
 
 import org.sdrc.sdrcims.model.ReturnModel;
 import org.sdrc.sdrcims.model.TypeDetailModel;
+import org.sdrc.sdrcims.model.UserDataModel;
 import org.sdrc.sdrcims.network.NetworkHelper;
 import org.sdrc.sdrcims.util.IntentIntegrator;
 import org.sdrc.sdrcims.util.IntentResult;
+import org.sdrc.sdrcims.util.StateManager;
 
 
 import java.text.SimpleDateFormat;
@@ -84,7 +87,9 @@ public class AddDeviceActivity extends DeviceManagementActivity implements View.
 
         deviceTypes = (Spinner)findViewById(R.id.device_type);
         NetworkHelper helper = new NetworkHelper(AddDeviceActivity.this,AddDeviceActivity.this);
-        helper.getDeviceType();
+        StateManager stateManager = new StateManager(getApplicationContext());
+        UserDataModel userDataModel=stateManager.getLoginDetail();
+        helper.getDeviceType(userDataModel,stateManager.getCookie());
     }
 
     @Override
@@ -183,7 +188,11 @@ public class AddDeviceActivity extends DeviceManagementActivity implements View.
            Log.v("Checking::",String.valueOf(deviceModel.getDeviceTypeId()));
 
            NetworkHelper networkHelper = new NetworkHelper(AddDeviceActivity.this,AddDeviceActivity.this);
-           networkHelper.sendNewDevice(deviceModel);
+
+            StateManager stateManager = new StateManager(getApplicationContext());
+            UserDataModel userDataModel=stateManager.getLoginDetail();
+            userDataModel.setSubmissionObject(deviceModel);
+           networkHelper.sendNewDevice(userDataModel,stateManager.getCookie());
 
         }
 
@@ -304,7 +313,7 @@ public class AddDeviceActivity extends DeviceManagementActivity implements View.
                 {
                     dialog.dismiss();
                     finish();
-                    Intent deviceManagementIntenet = new Intent(AddDeviceActivity.this,HomeActivity.class);
+                    Intent deviceManagementIntenet = new Intent(AddDeviceActivity.this,LoginActivity.class);
                     startActivity(deviceManagementIntenet);
                 }
                 else {
@@ -331,6 +340,11 @@ public class AddDeviceActivity extends DeviceManagementActivity implements View.
 
     @Override
     public void getAllDevice(ReturnModel returnModel) {
+
+    }
+
+    @Override
+    public void login(ReturnModel returnModel, String string) {
 
     }
 
