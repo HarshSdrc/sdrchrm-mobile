@@ -137,7 +137,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         {
 
             StateManager stateManager = new StateManager(getApplicationContext());
-            stateManager.createLoginSession(userName.getText().toString(),password.getText().toString(),string);
+            stateManager.createLoginSession(userName.getText().toString(),password.getText().toString(),
+                    string,"");
             finish();
             Intent homeIntenet = new Intent(LoginActivity.this,HomeActivity.class);
             startActivity(homeIntenet);

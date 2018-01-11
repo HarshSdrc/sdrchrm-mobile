@@ -213,7 +213,11 @@ public class NetworkHelper {
                           else
                               cookies+= "; "+cookie.split(";")[0];
                       }
+
+
                     }
+
+
 
                     typeDetailListner.login(response.body(),cookies);
 

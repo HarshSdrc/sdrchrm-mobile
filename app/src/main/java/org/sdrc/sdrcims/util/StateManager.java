@@ -43,6 +43,8 @@ public class StateManager {
 
     public static final String COOKIE = "cookie";
 
+    public static final String USERTYPE = "userType";
+
     // Constructor
     public StateManager(Context context) {
         this._context = context;
@@ -52,7 +54,7 @@ public class StateManager {
 
 
 
-    public void createLoginSession(String email, String password,String cookie){
+    public void createLoginSession(String email, String password,String cookie,String userType){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -62,9 +64,11 @@ public class StateManager {
         // Storing password in pref
         editor.putString(PASSWORD, password);
 
-
         // Storing cookie
         editor.putString(COOKIE,cookie);
+
+        //Storing user type
+        editor.putString(USERTYPE,userType);
 
         // commit changes
         editor.commit();
